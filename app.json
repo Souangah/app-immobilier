@@ -1,0 +1,72 @@
+{
+  "expo": {
+    "name": "Sidney ImmoPay",
+    "slug": "immobilier",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "sidneyespace",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sidneyespace.immobilier"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff",
+          "mode": "production"
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "L'application a besoin d'accéder à vos photos pour joindre une preuve à votre réclamation",
+          "cameraPermission": "L'application a besoin de votre caméra pour prendre une preuve photo/vidéo de votre réclamation",
+          "microphonePermission": "L'application a besoin du microphone pour enregistrer une vidéo de preuve"
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.sidneyespace.immobilier",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            { "scheme": "sidneyespace" },
+            { "scheme": "https", "host": "sidneyespace.net" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "79be38af-318b-4e58-9e7d-5871cd77bd17"
+      }
+    }
+  }
+}
