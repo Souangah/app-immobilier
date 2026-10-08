@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, ActivityIndicator, Linking } from "react-native";
 import * as WebBrowser from 'expo-web-browser';
-import { GlobalContext } from "../config/globaluser";
+import { GlobalContext } from "../../config/globaluser";
 import { Ionicons } from '@expo/vector-icons';
 
 const BLEU = '#275edd';

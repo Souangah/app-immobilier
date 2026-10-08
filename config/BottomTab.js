@@ -4,11 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import Accueil from '../screens/accueil';
-import Contrat from '../screens/contrat';
-import Profil from '../screens/profil';
+import Accueil from '../screens/menu/accueil';
+import Contrat from '../screens/documents/contrat';
+import Profil from '../screens/menu/profil';
 import Header from './header';
-import Loyer from '../screens/loyer';
+import Loyer from '../screens/loyers/loyer';
 import { GlobalContext } from './globaluser';
 
 const Tab = createBottomTabNavigator();

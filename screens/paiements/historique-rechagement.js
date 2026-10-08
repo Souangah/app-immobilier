@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl, Modal, Pressable } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import { GlobalContext } from "../config/globaluser";
+import { GlobalContext } from "../../config/globaluser";
 
 const BLEU = '#275edd';
 

@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { GlobalContext } from "../config/globaluser";
+import { GlobalContext } from "../../config/globaluser";
 
 const BLEU = '#275edd';
 const API = "https://sidneyespace.net/paiement/report-loyer.php";

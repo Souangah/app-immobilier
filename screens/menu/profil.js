@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import { GlobalContext } from "../config/globaluser";
+import { GlobalContext } from "../../config/globaluser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BLEU = '#275edd';
@@ -75,11 +75,11 @@ export default function Profil({ navigation }) {
                 <Section title="Assistance & Réclamations">
                     <Item icon="construct" color="#F59E0B" light="#FFFBEB" title="Faire une réclamation" subtitle="Plomberie, Électricité, Sécurité..." onPress={() => navigation.navigate('NouvelleReclamation')} />
                     <View style={styles.separator} />
-                    <Item icon="hourglass" color="#06B6D4" light="#ECFEFF" title="Suivre mes réclamations" subtitle="En attente / En cours / Clôturée" onPress={() => navigation.navigate('SuiviReclamations')} />
+                    <Item icon="hourglass" color="#06B6D4" light="#ECFEFF" title="Suivre mes réclamations" subtitle="En attente / En cours / Clôturée" onPress={() => navigation.navigate('MesReclamations')} />
                 </Section>
 
                 <Section title="Informations">
-                    <Item icon="help-circle" color="#6366F1" light="#EEF2FF" title="FAQ Locataire" subtitle="Règlement intérieur" onPress={() => navigation.navigate('FAQ')} />
+                    <Item icon="help-circle" color="#6366F1" light="#EEF2FF" title="FAQ Locataire" subtitle="Règlement intérieur" onPress={() => navigation.navigate('FAQReglement')} />
                     <View style={styles.separator} />
                     <Item icon="call" color="#10B981" light="#D1FAE5" title="Contacts utiles" subtitle="Gérance, Comptabilité, Technique" onPress={() => navigation.navigate('Contacts')} />
                 </Section>

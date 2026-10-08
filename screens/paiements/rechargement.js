@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, Alert, Linking, Platform, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { GlobalContext } from "../config/globaluser";
+import { GlobalContext } from "../../config/globaluser";
 
 const BLEU = '#275edd';
 const NUMERO_SIDNEY = "2250700000000"; // mets ton numéro WhatsApp Sidney Espace
@@ -10,14 +10,14 @@ const METHODS = [
   { 
     id: 'sidney',
     name: 'Sidney Espace',
-    logo: require('../assets/images/sidney.png'),
+    logo: require('../../assets/images/sidney.png'),
     desc: 'Rechargement en agence', fee: 'Gratuit',
     available: true
   },
   { 
     id: 'wave',
     name: 'Wave',
-    logo: require('../assets/images/wave.png'),
+    logo: require('../../assets/images/wave.png'),
     desc: 'Paiement instantané',
     fee: '0% frais',
     available: true 
@@ -25,7 +25,7 @@ const METHODS = [
   { 
     id: 'orange',
     name: 'Orange Money',
-    logo: require('../assets/images/orange.png'),
+    logo: require('../../assets/images/orange.png'),
     desc: 'Orange CI',
     fee: '1% frais',
     available: false 
@@ -33,7 +33,7 @@ const METHODS = [
   { 
     id: 'mtn',
     name: 'MTN Money',
-    logo: require('../assets/images/mtn.png'),
+    logo: require('../../assets/images/mtn.png'),
     desc: 'MTN CI',
     fee: '1% frais',
     available: false
@@ -41,7 +41,7 @@ const METHODS = [
   { 
     id: 'moov',
     name: 'Moov Money',
-    logo: require('../assets/images/moov.png'),
+    logo: require('../../assets/images/moov.png'),
     desc: 'Moov CI',
     fee: '1% frais',
     available: false

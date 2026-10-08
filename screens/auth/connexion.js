@@ -3,7 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar,
   KeyboardAvoidingView, Platform, Alert, ActivityIndicator, ScrollView,
 } from 'react-native';
-import { GlobalContext } from '../config/globaluser';
+import { GlobalContext } from '../../config/globaluser';
 
 export default function Connexion({ navigation }) {
   const [telephone, setTelephone] = useState('');

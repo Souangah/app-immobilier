@@ -2,17 +2,19 @@ import * as React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Connexion from '../screens/connexion';
+import Connexion from '../screens/auth/connexion';
 import BottomTab from './BottomTab';
-import Paiement from '../screens/paiement';
-import HistoriquePaiement from '../screens/historique-paiement';
-import PaiementSuccess from '../screens/paiementSucces'; 
-import PaiementEchec from '../screens/paiementEchec';
+import Paiement from '../screens/paiements/paiement';
+import HistoriquePaiement from '../screens/paiements/historique-paiement';
+import PaiementSuccess from '../screens/paiements/paiementSucces'; 
+import PaiementEchec from '../screens/paiements/paiementEchec';
 import { GlobalContext } from './globaluser';
-import Recharge from '../screens/rechargement';
-import HistoriqueRechargement from '../screens/historique-rechagement';
-import ReportLoyer from '../screens/report-loyer';
-import NouvelleReclamation from '../screens/nouvelle-reclamation';
+import Recharge from '../screens/paiements/rechargement';
+import HistoriqueRechargement from '../screens/paiements/historique-rechagement';
+import ReportLoyer from '../screens/loyers/report-loyer';
+import NouvelleReclamation from '../screens/reclamations/nouvelle-reclamation';
+import MesReclamations from '../screens/reclamations/mes-reclamation';
+import FAQReglement from '../screens/documents/FAQReglement';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +58,8 @@ export default function Router(){
           <Stack.Screen name='HistoriqueRechargement' component={HistoriqueRechargement} options={{headerShown: false}} />
           <Stack.Screen name='ReportLoyer' component={ReportLoyer} options={{headerShown: false}}/>
           <Stack.Screen name='NouvelleReclamation' component={NouvelleReclamation} options={{headerShown: false}}/>
+          <Stack.Screen name='MesReclamations' component={MesReclamations} options={{headerShown: false}}/>
+          <Stack.Screen name='FAQReglement' component={FAQReglement} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
