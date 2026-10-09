@@ -73,7 +73,7 @@ export default function Profil({ navigation }) {
                 </Section>
 
                 <Section title="Assistance & Réclamations">
-                    <Item icon="construct" color="#F59E0B" light="#FFFBEB" title="Faire une réclamation" subtitle="Plomberie, Électricité, Sécurité..." onPress={() => navigation.navigate('NouvelleReclamation')} />
+                    <Item icon="construct" color="#F59E0B" light="#FFFBEB" title="Faire une réclamation" subtitle="Plomberie, Électricité, Sécurité..." onPress={() => navigation.navigate('SplashScreen')} />
                     <View style={styles.separator} />
                     <Item icon="hourglass" color="#06B6D4" light="#ECFEFF" title="Suivre mes réclamations" subtitle="En attente / En cours / Clôturée" onPress={() => navigation.navigate('MesReclamations')} />
                 </Section>

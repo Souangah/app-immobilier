@@ -1,121 +1,116 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Accueil from '../screens/menu/accueil';
+import Loyer from '../screens/loyers/loyer';
 import Contrat from '../screens/documents/contrat';
+import MesReclamation from '../screens/reclamations/mes-reclamation';
 import Profil from '../screens/menu/profil';
 import Header from './header';
-import Loyer from '../screens/loyers/loyer';
 import { GlobalContext } from './globaluser';
 
 const Tab = createBottomTabNavigator();
 const BLEU = '#275edd';
+const GRIS = '#64748B';
 
-export default function BottomTab() { 
+// showHeader: false => cette page n'affiche pas le header unique
+const TABS = [
+  { name: 'Accueil',     component: Accueil,     label: 'Accueil',      icon: 'home',          showHeader: true },
+  { name: 'Loyers',      component: Loyer,       label: 'Loyers',       icon: 'wallet',        showHeader: true },
+  { name: 'Documents',   component: Contrat,     label: 'Documents',    icon: 'document-text', showHeader: true },
+  { name: 'Reclamation', component: MesReclamation, label: 'Réclamations', icon: 'build',         showHeader: true },
+  { name: 'Profil',      component: Profil,      label: 'Profil',       icon: 'person',        showHeader: true },
+];
+
+const TabLabel = ({ focused, label }) => (
+  <View style={styles.labelWrap}>
+    <Text
+      numberOfLines={1}
+      style={[styles.label, { color: focused ? BLEU : GRIS, fontWeight: focused ? '700' : '500' }]}
+    >
+      {label}
+    </Text>
+    <View style={[styles.underline, focused && styles.underlineActive]} />
+  </View>
+);
+
+export default function BottomTab() {
   const { user } = useContext(GlobalContext);
   const insets = useSafeAreaInsets();
+  const [bien, setBien] = useState(null);
 
-  // HEADER UNIQUE STATIQUE
-  const StaticHeader = () => (
-    <Header
-      locataireName={user?.nom_prenom || 'Locataire'}
-      matricule={user?.matricule}
-      solde={user?.solde_compte}
-      etatCompte={user?.etat_compte}
-    />
-  );
+  // Une seule requête pour alimenter le header de toutes les pages
+  useEffect(() => {
+    let actif = true;
+    (async () => {
+      try {
+        const res = await fetch(
+          `https://sidneyespace.net/paiement/info-bien.php?matricule=${user?.matricule || ''}`
+        );
+        const json = await res.json();
+        if (actif && json.success) setBien(json.bien);
+      } catch (e) {}
+    })();
+    return () => { actif = false; };
+  }, [user?.matricule]);
 
   return (
     <Tab.Navigator
+      initialRouteName="Accueil"
       screenOptions={{
-        header: () => <StaticHeader />,
+        headerShown: true,
+        header: ({ navigation }) => (
+          <Header
+            locataireName={user?.nom_prenom || user?.prenom || 'Locataire'}
+            bien={bien}
+            notifCount={3}
+            onNotifPress={() => navigation.navigate('Notifications')}
+            onProfilePress={() => navigation.navigate('Profil')}
+            onLogementPress={() => navigation.navigate('Logement', { bien })}
+          />
+        ),
         tabBarShowLabel: true,
         tabBarActiveTintColor: BLEU,
-        tabBarInactiveTintColor: '#94A3B8',
+        tabBarInactiveTintColor: GRIS,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          position: 'absolute',
-          bottom: Math.max(8, insets.bottom > 0 ? insets.bottom - 10 : 8),
-          left: 16, right: 16,
           backgroundColor: 'white',
-          borderRadius: 20,
-          height: 65,
-          paddingTop: 4,
-          paddingBottom: Platform.OS === 'ios' ? 8 : 4,
-          shadowColor: BLEU,
-          shadowOffset: { width: 0, height: 10 },
-          shadowOpacity: 0.18,
-          shadowRadius: 20,
-          elevation: 10,
           borderTopWidth: 0,
-        },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '700' },
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-          if (size) {} // ignore
-          return null;
+          height: 66 + insets.bottom,
+          paddingTop: 8,
+          paddingBottom: insets.bottom,
+          elevation: 16,
+          shadowColor: '#0F172A',
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.08,
+          shadowRadius: 12,
         },
       }}
     >
-      <Tab.Screen 
-        name="Accueil" 
-        component={Accueil} 
-        options={{
-          tabBarLabel: 'Accueil',
-          tabBarIcon: ({ focused, color }) => (
-            <View style={[styles.iconContainer, focused && styles.iconContainerActive]}>
-              <Ionicons name={focused ? 'home' : 'home-outline'} size={24} color={color} />
-            </View>
-          )
-        }}
-      />
-      <Tab.Screen 
-        name="Loyer" 
-        component={Loyer} 
-        options={{
-          tabBarLabel: 'Mes Loyers',
-          tabBarIcon: ({ focused, color }) => (
-            <View style={[styles.iconContainer, focused && styles.iconContainerActive]}>
-              <Ionicons name={focused ? 'card' : 'card-outline'} size={24} color={color} />
-            </View>
-          )
-        }}
-      />
-      <Tab.Screen 
-        name="Contrat" 
-        component={Contrat} 
-        options={{
-          tabBarLabel: 'Mon Contrat',
-          tabBarIcon: ({ focused, color }) => (
-            <View style={[styles.iconContainer, focused && styles.iconContainerActive]}>
-              <Ionicons name={focused ? 'document-text' : 'document-text-outline'} size={24} color={color} />
-            </View>
-          )
-        }}
-      />
-      <Tab.Screen 
-        name="Profil" 
-        component={Profil} 
-        options={{
-          tabBarLabel: 'Profil',
-          tabBarIcon: ({ focused, color }) => (
-            <View style={[styles.iconContainer, focused && styles.iconContainerActive]}>
-              <Ionicons name={focused ? 'settings' : 'settings-outline'} size={24} color={color} />
-            </View>
-          )
-        }}
-      />
+      {TABS.map(({ name, component, label, icon, showHeader }) => (
+        <Tab.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerShown: showHeader,
+            tabBarLabel: ({ focused }) => <TabLabel focused={focused} label={label} />,
+            tabBarIcon: ({ focused, color }) => (
+              <Ionicons name={focused ? icon : `${icon}-outline`} size={26} color={color} />
+            ),
+          }}
+        />
+      ))}
     </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-  iconContainer: {
-    width: 44, height: 32,
-    justifyContent: 'center', alignItems: 'center',
-    borderRadius: 12,
-  },
-  iconContainerActive: { backgroundColor: '#EFF6FF' },
+  labelWrap: { alignItems: 'center', marginTop: 2 },
+  label: { fontSize: 11.5 },
+  underline: { marginTop: 5, width: 56, height: 3, borderRadius: 2, backgroundColor: 'transparent' },
+  underlineActive: { backgroundColor: BLEU },
 });

@@ -5,102 +5,89 @@ import { GlobalContext } from "../../config/globaluser";
 
 const BLEU = '#275edd';
 
+// Mes documents : consultation / téléchargement
+const DOCUMENTS = [
+    { route: 'BailPDF',    icon: 'document-text', color: BLEU,      bg: '#EFF6FF', title: 'Mon bail',       sub: 'Contrat + annexes', badge: 'PDF' },
+    { route: 'EtatLieux',  icon: 'camera',        color: '#8B5CF6', bg: '#F5F3FF', title: 'État des lieux', sub: 'Entrée / Sortie',   badge: 'Photos' },
+];
+
+// Mes démarches : actions à effectuer
+const DEMARCHES = [
+    { route: 'Preavis',        icon: 'exit',     color: '#EF4444', bg: '#FEF2F2', title: 'Signaler un départ',       sub: 'Déposer mon préavis en ligne',  badge: 'Préavis' },
+    { route: 'Reservation',    icon: 'bookmark', color: '#22C55E', bg: '#DCFCE7', title: 'Réserver un bien en ligne', sub: 'Bloquez votre futur logement', badge: 'Nouveau' },
+    { route: 'RechercheBiens', icon: 'search',   color: '#F59E0B', bg: '#FFFBEB', title: 'Recherche de biens',        sub: 'Locaux vacants et pré-vacants', badge: '12 dispo' },
+];
+
 export default function Contrat({ navigation }) {
     const { user } = useContext(GlobalContext);
 
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={{padding:16, paddingBottom:110}} showsVerticalScrollIndicator={false}>
-                
-                {/* HEADER */}
-                <View style={styles.headerCard}>
-                    <View style={styles.headerIcon}>
-                        <Ionicons name="shield-checkmark" size={28} color="white" />
+            {/* Le header (salutation + logement) est fourni par la barre d'onglets */}
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+
+                {/* ===== 1. RÉSUMÉ DU CONTRAT ===== */}
+                <View style={styles.summary}>
+                    <View style={styles.summaryIcon}>
+                        <Ionicons name="shield-checkmark" size={22} color="white" />
                     </View>
-                    <View style={{flex:1, marginLeft:12}}>
-                        <Text style={styles.headerTitle}>Mon Contrat</Text>
-                        <Text style={styles.headerSub}>CONTRAT{user?.matricule ? ` • ${user.matricule}` : ''} • Actif</Text>
+                    <View style={{flex:1}}>
+                        <Text style={styles.summaryTitle}>Mon contrat</Text>
+                        <Text style={styles.summarySub}>{user?.matricule ? `Réf. ${user.matricule}` : 'Contrat de location'}</Text>
                     </View>
-                    <View style={styles.activeDot} />
+                    <View style={styles.activeBadge}>
+                        <View style={styles.activeDot} />
+                        <Text style={styles.activeText}>Actif</Text>
+                    </View>
                 </View>
 
-                {/* 1 - MON BAIL */}
-                <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("BailPDF")} activeOpacity={0.7}>
-                    <View style={[styles.iconBox, {backgroundColor: "#EFF6FF"}]}>
-                        <Ionicons name="document-text" size={22} color={BLEU} />
-                    </View>
-                    <View style={styles.cardCenter}>
-                        <Text style={styles.cardTitle}>Mon Bail</Text>
-                        <Text style={styles.cardSub}>Consulter et télécharger le contrat + annexes</Text>
-                    </View>
-                    <View style={styles.cardRight}>
-                        <View style={[styles.badge, {backgroundColor: "#EFF6FF"}]}><Text style={[styles.badgeText, {color: BLEU}]}>PDF</Text></View>
-                        <Ionicons name="chevron-forward" size={18} color="#CBD5E1" />
-                    </View>
-                </TouchableOpacity>
+                {/* ===== 2. MES DOCUMENTS (grille 2 colonnes) ===== */}
+                <Text style={styles.sectionTitle}>Mes documents</Text>
+                <View style={styles.grid}>
+                    {DOCUMENTS.map(d => (
+                        <TouchableOpacity key={d.route} style={styles.tile} activeOpacity={0.8} onPress={() => navigation.navigate(d.route)}>
+                            <View style={styles.tileTop}>
+                                <View style={[styles.iconBox, {backgroundColor: d.bg}]}>
+                                    <Ionicons name={d.icon} size={22} color={d.color} />
+                                </View>
+                                <View style={[styles.badge, {backgroundColor: d.bg}]}>
+                                    <Text style={[styles.badgeText, {color: d.color}]}>{d.badge}</Text>
+                                </View>
+                            </View>
+                            <Text style={styles.tileTitle}>{d.title}</Text>
+                            <Text style={styles.tileSub}>{d.sub}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
 
-                {/* 2 - ETAT DES LIEUX */}
-                <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("EtatLieux")} activeOpacity={0.7}>
-                    <View style={[styles.iconBox, {backgroundColor: "#F5F3FF"}]}>
-                        <Ionicons name="camera" size={22} color="#8B5CF6" />
-                    </View>
-                    <View style={styles.cardCenter}>
-                        <Text style={styles.cardTitle}>État des lieux</Text>
-                        <Text style={styles.cardSub}>Entrée / Sortie (photos)</Text>
-                    </View>
-                    <View style={styles.cardRight}>
-                        <View style={[styles.badge, {backgroundColor: "#F5F3FF"}]}><Text style={[styles.badgeText, {color: "#8B5CF6"}]}>Photos</Text></View>
-                        <Ionicons name="chevron-forward" size={18} color="#CBD5E1" />
-                    </View>
-                </TouchableOpacity>
+                {/* ===== 3. MES DÉMARCHES (liste) ===== */}
+                <Text style={styles.sectionTitle}>Mes démarches</Text>
+                <View style={styles.list}>
+                    {DEMARCHES.map((d, i) => (
+                        <TouchableOpacity
+                            key={d.route}
+                            style={[styles.row, i < DEMARCHES.length - 1 && styles.rowBorder]}
+                            activeOpacity={0.7}
+                            onPress={() => navigation.navigate(d.route)}
+                        >
+                            <View style={[styles.iconBoxSm, {backgroundColor: d.bg}]}>
+                                <Ionicons name={d.icon} size={19} color={d.color} />
+                            </View>
+                            <View style={{flex:1, marginLeft:12}}>
+                                <Text style={styles.rowTitle}>{d.title}</Text>
+                                <Text style={styles.rowSub}>{d.sub}</Text>
+                            </View>
+                            <View style={[styles.badge, {backgroundColor: d.bg, marginRight:6}]}>
+                                <Text style={[styles.badgeText, {color: d.color}]}>{d.badge}</Text>
+                            </View>
+                            <Ionicons name="chevron-forward" size={16} color="#94A3B8" />
+                        </TouchableOpacity>
+                    ))}
+                </View>
 
-                {/* 3 - SIGNALER DEPART */}
-                <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Preavis")} activeOpacity={0.7}>
-                    <View style={[styles.iconBox, {backgroundColor: "#FEF2F2"}]}>
-                        <Ionicons name="exit" size={22} color="#EF4444" />
-                    </View>
-                    <View style={styles.cardCenter}>
-                        <Text style={styles.cardTitle}>Signaler un départ</Text>
-                        <Text style={styles.cardSub}>Déposer mon préavis en ligne</Text>
-                    </View>
-                    <View style={styles.cardRight}>
-                        <View style={[styles.badge, {backgroundColor: "#FEF2F2"}]}><Text style={[styles.badgeText, {color: "#EF4444"}]}>Préavis</Text></View>
-                        <Ionicons name="chevron-forward" size={18} color="#CBD5E1" />
-                    </View>
-                </TouchableOpacity>
-
-                {/* 4 - RECHERCHE BIENS */}
-                <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("RechercheBiens")} activeOpacity={0.7}>
-                    <View style={[styles.iconBox, {backgroundColor: "#FFFBEB"}]}>
-                        <Ionicons name="search" size={22} color="#F59E0B" />
-                    </View>
-                    <View style={styles.cardCenter}>
-                        <Text style={styles.cardTitle}>Recherche de biens</Text>
-                        <Text style={styles.cardSub}>Locaux vacants et pré-vacants</Text>
-                    </View>
-                    <View style={styles.cardRight}>
-                        <View style={[styles.badge, {backgroundColor: "#FFFBEB"}]}><Text style={[styles.badgeText, {color: "#F59E0B"}]}>12 dispo</Text></View>
-                        <Ionicons name="chevron-forward" size={18} color="#CBD5E1" />
-                    </View>
-                </TouchableOpacity>
-
-                {/* 5 - RESERVER BIEN */}
-                <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Reservation")} activeOpacity={0.7}>
-                    <View style={[styles.iconBox, {backgroundColor: "#DCFCE7"}]}>
-                        <Ionicons name="bookmark" size={22} color="#22C55E" />
-                    </View>
-                    <View style={styles.cardCenter}>
-                        <Text style={styles.cardTitle}>Réserver un bien en ligne</Text>
-                        <Text style={styles.cardSub}>Bloquez votre futur logement</Text>
-                    </View>
-                    <View style={styles.cardRight}>
-                        <View style={[styles.badge, {backgroundColor: "#DCFCE7"}]}><Text style={[styles.badgeText, {color: "#22C55E"}]}>Nouveau</Text></View>
-                        <Ionicons name="chevron-forward" size={18} color="#CBD5E1" />
-                    </View>
-                </TouchableOpacity>
-
+                {/* ===== 4. NOTE ===== */}
                 <View style={styles.info}>
-                    <Ionicons name="information-circle" size={16} color="#94A3B8" />
+                    <Ionicons name="information-circle" size={16} color={BLEU} />
                     <Text style={styles.infoText}>Tous vos documents sont disponibles 24h/24. Pour tout départ, un préavis de 3 mois est requis.</Text>
                 </View>
             </ScrollView>
@@ -109,30 +96,39 @@ export default function Contrat({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container:{flex:1, backgroundColor:'#F8FAFC'},
-    headerCard:{
-        flexDirection:'row', alignItems:'center',
-        backgroundColor: BLEU,
-        borderRadius:20, padding:16, marginBottom:16,
-        shadowColor: BLEU, shadowOffset:{width:0,height:8}, shadowOpacity:0.3, shadowRadius:12, elevation:8
-    },
-    headerIcon:{width:48, height:48, borderRadius:14, backgroundColor:'rgba(255,255,255,0.2)', justifyContent:'center', alignItems:'center'},
-    headerTitle:{color:'white', fontSize:16, fontWeight:'900'},
-    headerSub:{color:'rgba(255,255,255,0.8)', fontSize:11, fontWeight:'600', marginTop:3},
-    activeDot:{width:10, height:10, borderRadius:5, backgroundColor:'#22C55E', borderWidth:2, borderColor:'white'},
-    card:{
-        flexDirection:'row', alignItems:'center',
-        backgroundColor:'white', borderRadius:16, padding:14,
-        marginBottom:10, borderWidth:1, borderColor:'#F1F5F9',
-        shadowColor:'#000', shadowOffset:{width:0,height:1}, shadowOpacity:0.05, shadowRadius:4, elevation:2
-    },
-    iconBox:{width:44, height:44, borderRadius:12, justifyContent:'center', alignItems:'center'},
-    cardCenter:{flex:1, marginLeft:12},
-    cardRight:{alignItems:'flex-end', gap:6},
-    cardTitle:{fontSize:13, fontWeight:'800', color:'#0F172A'},
-    cardSub:{fontSize:11, color:'#64748B', marginTop:3, lineHeight:14},
+    container:{flex:1, backgroundColor:'#F6F8FC'},
+    content:{paddingHorizontal:16, paddingTop:10, paddingBottom:20},
+
+    /* Résumé */
+    summary:{flexDirection:'row', alignItems:'center', gap:12, backgroundColor:'#E8F0FF', borderRadius:16, padding:12},
+    summaryIcon:{width:42, height:42, borderRadius:13, backgroundColor:BLEU, justifyContent:'center', alignItems:'center'},
+    summaryTitle:{fontSize:14, fontWeight:'800', color:'#0F172A'},
+    summarySub:{fontSize:11, color:'#64748B', marginTop:2, fontWeight:'600'},
+    activeBadge:{flexDirection:'row', alignItems:'center', gap:5, backgroundColor:'#DCFCE7', paddingHorizontal:9, paddingVertical:4, borderRadius:10},
+    activeDot:{width:7, height:7, borderRadius:4, backgroundColor:'#22C55E'},
+    activeText:{fontSize:10.5, fontWeight:'800', color:'#16A34A'},
+
+    sectionTitle:{fontSize:15, fontWeight:'800', color:'#0F172A', marginTop:18, marginBottom:8},
+
+    /* Grille documents */
+    grid:{flexDirection:'row', gap:10},
+    tile:{flex:1, backgroundColor:'white', borderRadius:16, padding:12, elevation:2, shadowColor:'#0F172A', shadowOffset:{width:0,height:2}, shadowOpacity:0.05, shadowRadius:6},
+    tileTop:{flexDirection:'row', justifyContent:'space-between', alignItems:'flex-start'},
+    iconBox:{width:44, height:44, borderRadius:14, justifyContent:'center', alignItems:'center'},
+    tileTitle:{fontSize:13, fontWeight:'800', color:'#0F172A', marginTop:10},
+    tileSub:{fontSize:10.5, color:'#64748B', marginTop:2},
+
+    /* Liste démarches */
+    list:{backgroundColor:'white', borderRadius:16, elevation:2, shadowColor:'#0F172A', shadowOffset:{width:0,height:2}, shadowOpacity:0.05, shadowRadius:6, overflow:'hidden'},
+    row:{flexDirection:'row', alignItems:'center', padding:12},
+    rowBorder:{borderBottomWidth:1, borderBottomColor:'#F1F5F9'},
+    iconBoxSm:{width:38, height:38, borderRadius:12, justifyContent:'center', alignItems:'center'},
+    rowTitle:{fontSize:12.5, fontWeight:'800', color:'#0F172A'},
+    rowSub:{fontSize:10.5, color:'#64748B', marginTop:2},
+
     badge:{paddingHorizontal:8, paddingVertical:3, borderRadius:8},
-    badgeText:{fontSize:9, fontWeight:'800'},
-    info:{flexDirection:'row', gap:8, backgroundColor:'white', borderRadius:12, padding:12, marginTop:10, borderWidth:1, borderColor:'#F1F5F9'},
-    infoText:{flex:1, fontSize:11, color:'#64748B', lineHeight:16}
+    badgeText:{fontSize:9.5, fontWeight:'800'},
+
+    info:{flexDirection:'row', gap:8, backgroundColor:'#EFF6FF', borderRadius:12, padding:10, marginTop:16},
+    infoText:{flex:1, fontSize:10.5, color:'#475569', lineHeight:15}
 });

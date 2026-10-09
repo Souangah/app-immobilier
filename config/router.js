@@ -15,6 +15,7 @@ import ReportLoyer from '../screens/loyers/report-loyer';
 import NouvelleReclamation from '../screens/reclamations/nouvelle-reclamation';
 import MesReclamations from '../screens/reclamations/mes-reclamation';
 import FAQReglement from '../screens/documents/FAQReglement';
+import SplashScreen from '../screens/menu/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +48,7 @@ export default function Router(){
 
     return(
       <NavigationContainer linking={linking} fallback={<Text>Chargement...</Text>}>
-        <Stack.Navigator initialRouteName={user ? "BottomTab" : "Connexion"}>
+        <Stack.Navigator initialRouteName={user ? "BottomTab" : "SplashScreen"}>
           <Stack.Screen name='Connexion' component={Connexion} options={{headerShown: false}}/>
           <Stack.Screen name='BottomTab' component={BottomTab} options={{headerShown: false}} />
           <Stack.Screen name='Paiement' component={Paiement} options={{headerShown: true, title: 'Paiement'}} />
@@ -60,6 +61,7 @@ export default function Router(){
           <Stack.Screen name='NouvelleReclamation' component={NouvelleReclamation} options={{headerShown: false}}/>
           <Stack.Screen name='MesReclamations' component={MesReclamations} options={{headerShown: false}}/>
           <Stack.Screen name='FAQReglement' component={FAQReglement} options={{headerShown: false}}/>
+          <Stack.Screen name="SplashScreen" component={SplashScreen}  options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
