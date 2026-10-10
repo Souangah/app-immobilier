@@ -29,7 +29,8 @@
           "cameraPermission": "L'application a besoin de votre caméra pour prendre une preuve photo/vidéo de votre réclamation",
           "microphonePermission": "L'application a besoin du microphone pour enregistrer une vidéo de preuve"
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "android": {
       "package": "com.sidneyespace.immobilier",
@@ -45,10 +46,18 @@
           "action": "VIEW",
           "autoVerify": true,
           "data": [
-            { "scheme": "sidneyespace" },
-            { "scheme": "https", "host": "sidneyespace.net" }
+            {
+              "scheme": "sidneyespace"
+            },
+            {
+              "scheme": "https",
+              "host": "sidneyespace.net"
+            }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "permissions": [
