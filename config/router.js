@@ -16,6 +16,7 @@ import NouvelleReclamation from '../screens/reclamations/nouvelle-reclamation';
 import MesReclamations from '../screens/reclamations/mes-reclamation';
 import FAQReglement from '../screens/documents/FAQReglement';
 import SplashScreen from '../screens/menu/SplashScreen';
+import NotificationScreen from '../service/liste-notification';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ const linking = {
       HistoriquePaiement: 'historique',
       PaiementSuccess: 'paiement/success',
       PaiementEchec: 'paiement/echec',
+      NotificationScreen: 'notifications',
     }
   }
 }
@@ -62,6 +64,8 @@ export default function Router(){
           <Stack.Screen name='MesReclamations' component={MesReclamations} options={{headerShown: false}}/>
           <Stack.Screen name='FAQReglement' component={FAQReglement} options={{headerShown: false}}/>
           <Stack.Screen name="SplashScreen" component={SplashScreen}  options={{headerShown: false}}/>
+          <Stack.Screen name="NotificationScreen" component={NotificationScreen} options={{headerShown: false}}/>
+
         </Stack.Navigator>
       </NavigationContainer>
     )
