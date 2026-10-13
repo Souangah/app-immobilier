@@ -21,8 +21,10 @@ export default function SplashScreen({ navigation }) {
   const loaderWidth = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    let timer = null;
+
     // Séquence d'animations
-    Animated.sequence([
+    const animation = Animated.sequence([
       // 1. Logo apparaît
       Animated.parallel([
         Animated.spring(logoScale, {
@@ -56,12 +58,26 @@ export default function SplashScreen({ navigation }) {
         duration: 1200,
         useNativeDriver: false,
       }),
-    ]).start(() => {
-      // Navigation après l'animation
-      setTimeout(() => {
-        navigation.replace("BottomTab"); // Remplacez par l'écran souhaité après le splash
+    ]);
+
+    animation.start(({ finished }) => {
+      // Animation interrompue (écran quitté) : on ne navigue pas
+      if (!finished) return;
+
+      timer = setTimeout(() => {
+        // Ne navigue que si le splash est encore l'écran affiché
+        // (évite d'écraser l'écran de succès ouvert par un deep link)
+        if (navigation.isFocused()) {
+          navigation.replace("BottomTab");
+        }
       }, 300);
     });
+
+    // Nettoyage quand l'écran est démonté
+    return () => {
+      animation.stop();
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -84,7 +100,6 @@ export default function SplashScreen({ navigation }) {
             },
           ]}
         >
-          {/* Remplacez le chemin par votre image de logo */}
           <Image
             source={require("../../assets/images/sidney.png")}
             style={styles.logoImage}

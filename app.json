@@ -44,14 +44,9 @@
       "intentFilters": [
         {
           "action": "VIEW",
-          "autoVerify": true,
           "data": [
             {
               "scheme": "sidneyespace"
-            },
-            {
-              "scheme": "https",
-              "host": "sidneyespace.net"
             }
           ],
           "category": [
