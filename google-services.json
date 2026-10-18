@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394805553685",
+    "project_id": "immobilier-62bfb",
+    "storage_bucket": "immobilier-62bfb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394805553685:android:fed56a4631697087befc1c",
+        "android_client_info": {
+          "package_name": "com.sidneyespace.immobilier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfoZReLYjBRjUdkhsghoQJbt_3Tpj-SHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
